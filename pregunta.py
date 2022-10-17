@@ -15,11 +15,8 @@ import re
 def getNewLine(line, colSpecs):
     newLine = list()
 
-    for start, end in colSpecs[:-1]:
+    for start, end in colSpecs:
         newLine.append(line[start:end].strip())
-    
-    last = colSpecs[-1][0]
-    newLine.append(line[last:].strip())
     
     newLine[2] = newLine[2].strip(' %').replace(',', '.')
     
@@ -67,8 +64,8 @@ def ingest_data():
 
                 tags = combineSpaces.sub(" ", tags).strip()
 
-                if tags[-1] == '.':
-                    tags = tags[:-1]
+                if tags[-1] != '.':
+                    tags += '.'
 
                 newLine = getNewLine(firstCols + tags, colSpecs)
                 cleanData.write(newLine + '\n')
